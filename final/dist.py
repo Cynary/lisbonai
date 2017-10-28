@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import random
 
 
 class Dist:
@@ -8,28 +9,37 @@ class Dist:
     #             to 1. All unlisted events are assumed to have probability 0
     #
     def __init__(self, pr_map):
-        pass  # your code here
+        epsilon = 1e-9
+        assert -epsilon < sum(pr_map.values())-1 < epsilon
+        self.probabilities = {key: val for key, val in pr_map.items()
+                              if val != 0}
 
     # sample:
     #
     # Returns a random sample based on the underlying probability distribution.
     #
     def sample(self):
-        pass  # your code here
+        r = random.random()
+        for e in self.events():
+            r -= self.prob(e)
+            if r < 0:
+                return e
+
+        return e
 
     # prob:
     #
     # Returns the probability of `event`
     #
     def prob(self, event):
-        pass  # your code here
+        return self.probabilities.get(event, 0)
 
     # events:
     #
     # Returns the list of possible events (prob > 0)
     #
     def events(self):
-        pass  # your code here
+        return self.probabilities.keys()
 
 
 def test():

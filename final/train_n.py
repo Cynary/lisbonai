@@ -16,6 +16,10 @@ from train import train_model
 def train_model_n(data, n_states):
     final_data = []
 
-    # your code here
+    for sequence in data:
+        if len(sequence) < n_states:
+            continue
+        final_data.append([tuple(sequence[i:i+n_states])
+                           for i in range(len(sequence)-(n_states-1))])
 
     return train_model(final_data)
